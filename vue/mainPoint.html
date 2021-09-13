@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue</title>
+  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <style>
+    h2 {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    const app = new Vue({
+      template: `
+      <div>
+        <h2>插值字符串</h2>
+        <p>插值字符串:{{message}}</p>
+        <h2>标签属性使用插值字符串</h2>
+        <p v-bind:title="message">动态title属性</p>
+        <p :title="message">动态title属性</p>
+        <h2>事件绑定</h2>
+        <p v-on:click="handleClick">点击我</p>
+        <p @click="handleClick">点击我</p>
+        <h2>条件渲染</h2>
+        <p v-if="show">v-if:通过直接移除DOM来实现</p>
+        <p v-show="show">v-show：通过设置display来实现</p>
+        <p v-if="!show">v-if</p>
+        <p v-else>v-if,v-else</p>
+        <h2>列表循环: 数组(!给每项增加key值，更新时可避免重新渲染，增加性能)</h2>
+        <ul>
+          <li v-for="(item,index) in list" :key="item">
+            {{index}}-{{item}}
+          </li>
+        </ul>
+        <h2>列表循环: 对象</h2>
+        <ul>
+          <li v-for="(val,key,index) in obj" :key="val">
+            {{index}}-{{key}}：{{val}}
+          </li>
+        </ul>
+      </div>
+      `,
+      data() {
+        return {
+          message: "hello world",
+          show: true,
+          list: ["张三", "李四", "王五"],
+          obj: {
+            name: "张三",
+            job: "软件工程师",
+            address: "杭州"
+          }
+          // name: "Sean"
+        };
+      },
+      computed: {
+        //当内部属性发生改变时，才会重新执行；具有缓存功能，性能比methods更好
+        sayHello() {
+          console.log(this.message) //message改变时才会执行
+        },
+      },
+      // 监听数据的变化，一般用于异步操作
+      watch: {
+        // 会监听message变量的改变
+        message(cur, pre) {
+          alert(this.message)
+        },
+      },
+      methods: {
+        // 当页面重新渲染时，就会重新执行，能用computed，就不用methods
+        handleClick() {// 不能使用箭头函数，会改变this指向
+          console.log(this)
+          alert(this.message)
+        },
+      },
+    });
+    // 挂在应用到DOM节点，返回一个vue实例
+    const vm = app.$mount("#root")
+  </script>
+</body>
+
+</html>
