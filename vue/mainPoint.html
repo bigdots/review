@@ -12,6 +12,10 @@
     h2 {
       margin-top: 50px;
     }
+
+    body {
+      margin-bottom: 80px;
+    }
   </style>
 </head>
 
@@ -46,6 +50,21 @@
             {{index}}-{{key}}：{{val}}
           </li>
         </ul>
+        <h2>双向绑定：v-model</h2>
+        <input v-model="message"/>
+        <textarea v-model="message"/>
+        <div>
+          {{checkBoxValue}}
+          Jack<input type="checkbox" v-model="checkBoxValue" value="Jack" />
+          Tony<input type="checkbox" v-model="checkBoxValue" value="Tony"/>
+          Tom<input type="checkbox" v-model="checkBoxValue" value="Tom"/>
+        </div>
+        <div>
+          {{radioValue}}
+          Jack<input type="radio" v-model="radioValue" value="Jack" />
+          Tony<input type="radio" v-model="radioValue" value="Tony"/>
+          Tom<input type="radio" v-model="radioValue" value="Tom"/>
+        </div>
       </div>
       `,
       data() {
@@ -57,7 +76,9 @@
             name: "张三",
             job: "软件工程师",
             address: "杭州"
-          }
+          },
+          checkBoxValue: [],
+          radioValue: ""
           // name: "Sean"
         };
       },
@@ -71,7 +92,7 @@
       watch: {
         // 会监听message变量的改变
         message(cur, pre) {
-          alert(this.message)
+          console.log(this.message)
         },
       },
       methods: {
