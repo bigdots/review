@@ -48,9 +48,9 @@ function ajax({ url,
         }
     }
 
-    // xhr.onerror = (err) => {
-    //     error(err)
-    // }
+    xhr.onerror = (err) => {
+        error(err)
+    }
 
     xhr.open(method, url, async);
     xhr.send(data);
@@ -66,7 +66,7 @@ ajax({
     failed: (res) => {
         console.log(res)
     },
-    // error: (err) => {
-    //     console.log(3, err)
-    // }
+    error: (err) => {
+        console.log(err)
+    }
 })

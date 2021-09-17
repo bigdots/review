@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue</title>
   <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+  <!-- <script src="https://unpkg.com/vue@next"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <style>
     h2 {
@@ -22,7 +23,55 @@
 <body>
   <div id="root"></div>
   <script>
+    // 全局组件
+    Vue.component("checkbox-div", {
+      data() {
+        return {
+          checkBoxValue: [],
+        }
+      },
+      template: `<div>
+          {{checkBoxValue}}
+          Jack<input type="checkbox" v-model="checkBoxValue" value="Jack" />
+          Tony<input type="checkbox" v-model="checkBoxValue" value="Tony"/>
+          Tom<input type="checkbox" v-model="checkBoxValue" value="Tom"/>
+        </div>`
+    })
+
+    // 局部组件
+    const RadioDiv = {
+      data() {
+        return {
+          radioValue: "",
+        }
+      },
+      template: `<div>
+          {{radioValue}}
+          Jack<input type="radio" v-model="radioValue" value="Jack" />
+          Tony<input type="radio" v-model="radioValue" value="Tony"/>
+          Tom<input type="radio" v-model="radioValue" value="Tom"/>
+        </div>`
+    }
+    const Input = {
+      props: ["message"], // 单向数据流，只能从父组件传向子组件
+      data() {
+        return {
+          msg: this.message,
+        }
+      },
+      template: `<div>
+      <h2>双向绑定：v-model</h2>
+        <input v-model="msg"/>
+        <textarea v-model="msg"/>
+        
+      </div>`
+    }
+
     const app = new Vue({
+      components: {
+        Input,
+        RadioDiv
+      },
       template: `
       <div>
         <h2>插值字符串</h2>
@@ -50,26 +99,16 @@
             {{index}}-{{key}}：{{val}}
           </li>
         </ul>
-        <h2>双向绑定：v-model</h2>
-        <input v-model="message"/>
-        <textarea v-model="message"/>
-        <div>
-          {{checkBoxValue}}
-          Jack<input type="checkbox" v-model="checkBoxValue" value="Jack" />
-          Tony<input type="checkbox" v-model="checkBoxValue" value="Tony"/>
-          Tom<input type="checkbox" v-model="checkBoxValue" value="Tom"/>
-        </div>
-        <div>
-          {{radioValue}}
-          Jack<input type="radio" v-model="radioValue" value="Jack" />
-          Tony<input type="radio" v-model="radioValue" value="Tony"/>
-          Tom<input type="radio" v-model="radioValue" value="Tom"/>
-        </div>
+        <Input :message="message"/>
+        <checkbox-div />
+        <RadioDiv/>
+        
       </div>
       `,
       data() {
         return {
           message: "hello world",
+
           show: true,
           list: ["张三", "李四", "王五"],
           obj: {
@@ -77,8 +116,8 @@
             job: "软件工程师",
             address: "杭州"
           },
-          checkBoxValue: [],
-          radioValue: ""
+
+
           // name: "Sean"
         };
       },
@@ -103,6 +142,9 @@
         },
       },
     });
+
+
+
     // 挂在应用到DOM节点，返回一个vue实例
     const vm = app.$mount("#root")
   </script>
