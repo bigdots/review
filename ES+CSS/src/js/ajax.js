@@ -23,30 +23,50 @@
  * url: 请求地址,必选
  * method: 请求方法，get/post，必选
  * data: 请求数据，可选
- * aync: 同步或者异步，布尔值，可选
+ * async: 同步或者异步，布尔值，可选
  * success: 请求成功的回调函数
  * failed: 请求失败的回调函数
  * }  
  * 
  */
 
-function ajax({ url, method, data = null, aync = false, ...reset }) {
-
+function ajax({ url,
+    method,
+    data = null,
+    async = false,
+    success,
+    failed,
+    error
+}) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             //成功
-            const result = JSON.parse(xhr.responseText);
-            success && success(result)
-        } else {
-            const result = JSON.parse(xhr.responseText);
-            failed && failed(responseText)
-            // throw new Error("请求失败")
+            success(xhr.response)
+        } else if (xhr.status >= 400) {
+            failed(xhr)
         }
     }
 
-    xhr.open(method, url, aync);
+    // xhr.onerror = (err) => {
+    //     error(err)
+    // }
+
+    xhr.open(method, url, async);
     xhr.send(data);
 }
 
-
+// 调用函数
+ajax({
+    url: "/static/mock/ajaxData.json",
+    method: "get",
+    success: (res) => {
+        console.log(res)
+    },
+    failed: (res) => {
+        console.log(res)
+    },
+    // error: (err) => {
+    //     console.log(3, err)
+    // }
+})
