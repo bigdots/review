@@ -66,11 +66,41 @@
         
       </div>`
     }
+    // 动态组件，动态切换DOM
+    const Dynamic = {
+      data() {
+        return {
+          currentItem: "input"
+        }
+      },
+      methods: {
+        handleClick() {
+          if (this.currentItem === "input") {
+            this.currentItem = "textarea"
+          } else {
+            this.currentItem = "input"
+          }
+          console.log(this.currentItem)
+        }
+      },
+      template: `<div>
+        <!---keep-alive需要带有name属性的组件-->
+        <keep-alive>
+          <compontent :is="currentItem" />
+        </keep-alive>
+        <button @click="handleClick">切换</button>
+        </div>`
+    }
+
+    // const inpunt = {
+    //   template
+    // }
 
     const app = new Vue({
       components: {
         Input,
-        RadioDiv
+        RadioDiv,
+        Dynamic
       },
       template: `
       <div>
@@ -102,13 +132,12 @@
         <Input :message="message"/>
         <checkbox-div />
         <RadioDiv/>
-        
+        <Dynamic/>
       </div>
       `,
       data() {
         return {
           message: "hello world",
-
           show: true,
           list: ["张三", "李四", "王五"],
           obj: {
@@ -116,9 +145,6 @@
             job: "软件工程师",
             address: "杭州"
           },
-
-
-          // name: "Sean"
         };
       },
       computed: {
