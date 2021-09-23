@@ -1,13 +1,15 @@
 
 
-function noClone(value) {
+function IsBasicType(value) {
     const type = typeof value;
     return type !== "object" || type == null
 }
 
 
+
+
 function deepClone(tar) {
-    if (noClone(tar)) {
+    if (IsBasicType(tar)) {
         // 如果是基本类型值，直接返回
         return tar
     }
@@ -25,12 +27,8 @@ function deepClone(tar) {
         // 判断是否为原型链上的属性
         if (Object.hasOwnProperty.call(tar, key)) {
             const element = tar[key];
-            if (noClone(element)) {
-                result[key] = element
-            } else {
-                //递归
-                result[key] = deepClone(element)
-            }
+            // 递归
+            result[key] = deepClone(element)
         }
     }
 
@@ -52,5 +50,7 @@ let a = {
 
 let b = deepClone(a);
 a.address.city = "beijing";
+a.name = "shifei"
 console.log(b.address.city)  // beijing
+console.log(b.name)
 
