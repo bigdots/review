@@ -1,4 +1,8 @@
-import {ChangeInputValue,AddTodoItem,DeleteTodoItem} from "./actionTypes"
+import {
+    ChangeInputValue,
+    AddTodoItem,
+    DeleteTodoItem,
+    InitListAciton} from "./actionTypes"
 
 const defaultState ={
     inputValue: "",
@@ -32,8 +36,12 @@ function reducer(state = defaultState, action) {
             newState.list.splice(action.index,1);
             return newState;
         }
+        case InitListAciton:{
+            let newState = deepClone(state)
+            newState.list= action.list;
+            return newState;
+        }
         default:{
-            // console.log(3)
             return state; 
         }
     }
