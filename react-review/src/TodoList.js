@@ -1,7 +1,4 @@
 import {Component} from 'react'
-
-// import TodoItem from './TodoItem'
-// import axios from 'axios';
 import "./mock/tolist.js"
 import ToDoListUi from "./TodoListUi"
 

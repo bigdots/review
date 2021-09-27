@@ -1,11 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoList from './TodoList';
+
+
+// import TodoList from './TodoList';
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <TodoList />
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// );
+
+import TodoListReactRedux from './TodoListReactRedux'
+import { Provider } from 'react-redux';
+import store from './store'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <TodoList />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <TodoListReactRedux />
+  </Provider>,
   document.getElementById('root')
 );
-
