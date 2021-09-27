@@ -1,7 +1,7 @@
 import {Component} from 'react'
 
 // import TodoItem from './TodoItem'
-import axios from 'axios';
+// import axios from 'axios';
 import "./mock/tolist.js"
 import ToDoListUi from "./TodoListUi"
 
@@ -12,7 +12,8 @@ import {
   getAddTodoItemAction,
   getDeleteTodoItemAction,
   // initListAciton,
-  getTodoList
+  // getTodoList,
+  sagaGetTodoList
 } from './store/actionCreators'
 
 class TodoList extends Component {
@@ -49,7 +50,7 @@ class TodoList extends Component {
   
   componentDidMount(){
     console.log("mounted")
-    const action = getTodoList();
+    const action = sagaGetTodoList();
     // 调用dispatch，会自动执行action函数
     store.dispatch(action)
   }
@@ -81,6 +82,5 @@ class TodoList extends Component {
     // })
   }
 }
-
 
 export default TodoList;
