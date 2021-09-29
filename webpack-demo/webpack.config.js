@@ -1,4 +1,6 @@
 const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   // 入口文件
@@ -6,8 +8,12 @@ module.exports = {
   entry:{
     main: './src/index.js'
   },
+  devtool:'source-map',
   // production;development;none
   mode:'development', 
+  devServer: {
+    static: './dist',
+  },
   // 不同的模块打包策略
   module:{
     rules:[{
@@ -17,14 +23,29 @@ module.exports = {
       }
     },{
       test:/\.css$/,
-      use:['style-loader', 'css-loader']
+      use:[
+        'style-loader', 
+        {
+          loader: 'css-loader',
+          options: {importLoaders: 1}
+        },
+        // 'css-loader',
+        'postcss-loader'
+      ]
     }]
   },
   // 输出
   output: {
-    filename: 'main.js',
+    publicPath:'', //给资源设置一个域名
+    filename: 'index.js',
     path: path.resolve(__dirname,'dist')
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template:'./src/index.html'
+    }),
+    new CleanWebpackPlugin()
+  ]
 }
 
 // src 源文件
