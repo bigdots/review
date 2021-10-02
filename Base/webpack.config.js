@@ -1,21 +1,45 @@
 const path = require('path');
-// import router from './router'
-const router = require('./router')
+const entry = require('./entry');
+const plugins = require('./plugins')
+const mockFn = require('./mock/mockFn')
 
 module.exports = {
-  entry: router,
+  entry,
+  mode:'development',
   output: {
-      path: path.join(__dirname,'../dist'),
-      filename: "js/[name].js"
+      path: path.join(__dirname,'./dist'),
+      filename: "[name]/index.js"
   },
-  module: {
-      loaders: [
-          { test: /\.css$/, loader: "style-loader!css-loader" }
+  module:{
+    rules:[{
+      test:/\.(jfif|jpg|gif)$/,
+      use:{
+        loader: 'file-loader'
+      }
+    },{
+      test:/\.css$/,
+      use:[
+        'style-loader', 
+        {
+          loader: 'css-loader',
+          options: {importLoaders: 1}
+        },
+        // 'css-loader',
+        'postcss-loader'
       ]
+    }]
   },
   devServer:{
-    contentBase: '/html',
-    // 监听页面
-    inline:true
-  }
+    static: "./dist",
+    compress: true,
+    // mockData
+    onBeforeSetupMiddleware: function (devServer) {
+      if (!devServer) {
+        throw new Error('webpack-dev-server is not defined');
+      }
+
+      mockFn(devServer.app)
+    },
+  },
+  plugins
 };
