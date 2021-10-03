@@ -9,9 +9,11 @@ module.exports = (app)=>{
   app.get('/pages',(req,res)=>{
     let urls = {}
     Object.keys(entry).forEach((item)=>{
-      urls[item] = `/${item}`
+      if(item!=='index'){ // 首页不需要返回链接
+        urls[item] = `/${item}`
+      }
     })
-    console.log(urls)
+    // console.log(urls)
     res.json(urls)
   })
 }

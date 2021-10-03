@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "wc-reload webpack-dev-server --open",
     "build": "webpack"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "mockjs": "^1.1.0",
     "webpack": "^5.54.0",
     "webpack-cli": "^4.8.0",
+    "webpack-config-reload": "^0.1.0",
     "webpack-dev-server": "^4.3.0"
   },
   "dependencies": {

@@ -1,44 +1,52 @@
-// 防抖：当持续触发事件时，一定时间段内没有再触发事件，事件处理函数才会执行一次
-// 比如: 搜索输入框,用户连续输入停止后触发索引
 
-const input1 = document.getElementById("input1")
+// 基本类型判断
+function IsBasicType(value) {
+    const type = typeof value;
+    return type !== "object" || type == null
+}
 
-// input1.addEventListener("keyup", function (e) {
-//     console.log(e) // 会一直输出
-// })
+function deepClone(tar) {
+    if (IsBasicType(tar)) {
+        // 如果是基本类型值，直接返回
+        return tar
+    }
 
-// let timer = null;
-// input1.addEventListener("keyup", function (e) {
-//     if (timer) {
-//         clearTimeout(timer)
-//     }
-//     timer = setTimeout(() => {
-//         console.log(e)
-//     }, 500);
-// })
 
-/**
- * 
- * @param {*} fn 执行函数
- * @param {*} delay 延迟触发间隔
- * @returns 
- */
-function debounce(fn, delay = 100) {
-    let timer = null; // 闭包
+    // 初始化结果
+    let result;
+    if (tar instanceof Array) {
+        result = [];
+    } else {
+        result = {}
+    }
 
-    return function () {
-
-        if (timer) {
-            clearTimeout(timer);
+    for (const key in tar) {
+        // 判断是否为原型链上的属性
+        if (Object.hasOwnProperty.call(tar, key)) {
+            const element = tar[key];
+            // 递归
+            result[key] = deepClone(element)
         }
+    }
 
-        timer = setTimeout(() => {
-            fn.apply(this, arguments);
-            timer = null;
-        }, delay);
+    return result;
+}
+
+let a = {
+    name: "sean",
+    age: 22,
+    address: {
+        city: "hangzhou"
     }
 }
 
-input1.addEventListener("keyup", debounce(function (e) {
-    console.log(e)
-}, 500))
+
+// let b = a;
+// a.address.city = "beijing";
+// console.log(b.address.city)  // beijing
+
+let b = deepClone(a);
+a.address.city = "beijing";
+a.name = "shifei"
+console.log(b.address.city)  // beijing
+console.log(b.name)

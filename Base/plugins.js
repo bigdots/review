@@ -6,9 +6,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 let htmls = [];
 Object.keys(pages).forEach(function (key) {
   let html = new HtmlWebpackPlugin({
-    // title: key.toString(),
     chunks:[key],
-    template:'./src/template.html',
+    template: key==='index'? 'src/index.html':`src/${key}/index.html`,
     filename: key==='index'? 'index.html':`${key}/index.html`
   })
   htmls.push(html)
