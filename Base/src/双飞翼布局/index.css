@@ -1,0 +1,36 @@
+
+.column {
+  float: left;
+}
+
+#header{
+  background: wheat;
+}
+
+#left{
+  width: 200px;
+  margin-left: -100%;
+  background: royalblue;
+}
+
+#middle{
+  /* width: 100%; */
+  margin:0 150px 0 200px;
+  background: salmon;
+}
+
+#middle-wrap{
+  width: 100%;
+}
+
+#right{
+  width: 150px;
+  background: skyblue;
+  margin-left: -150px;
+}
+
+
+#footer{
+  background: yellow;
+  clear: both;
+}

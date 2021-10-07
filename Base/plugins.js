@@ -2,6 +2,7 @@ const pages = require('./entry')
 // const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const webpack = require('webpack'); 
 
 let htmls = [];
 Object.keys(pages).forEach(function (key) {
@@ -17,5 +18,7 @@ Object.keys(pages).forEach(function (key) {
 
 module.exports = [
   ...htmls,
-  new CleanWebpackPlugin()
+  new CleanWebpackPlugin(),
+  new webpack.HotModuleReplacementPlugin(), // 热模块更新插件
+  // new webpack.NamedModulesPlugin()
 ]

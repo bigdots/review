@@ -36,7 +36,7 @@ module.exports = {
   },
   // 输出
   output: {
-    publicPath:'', //给资源设置一个域名
+    // publicPath:'', //给资源设置一个域名
     filename: 'index.js',
     path: path.resolve(__dirname,'dist')
   },

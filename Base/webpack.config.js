@@ -8,7 +8,7 @@ module.exports = {
   mode:'development',
   output: {
       path: path.join(__dirname,'./dist'),
-      filename: "[name]/index.js"
+      filename: "[name][hash]/index.js",
   },
   module:{
     rules:[{
@@ -29,9 +29,11 @@ module.exports = {
       ]
     }]
   },
+  
   devServer:{
     static: "./dist",
     compress: true,
+    hot:true,
     // mockData
     onBeforeSetupMiddleware: function (devServer) {
       if (!devServer) {

@@ -1,0 +1,41 @@
+#container {
+  padding-left: 200px; 
+  padding-right: 150px;
+}
+
+.column {
+  float: left;
+}
+#header{
+  background: wheat;
+}
+
+#left{
+  position: relative;
+  right: 200px;
+  width: 200px;
+  background: royalblue;
+  margin-left: -100%;  /* 相对于父元素的宽度 */
+ 
+}
+
+#middle{
+  width: 100%;
+  background: salmon;
+}
+
+#right{
+  width: 150px;
+  background: skyblue;
+  margin-right: -150px;/* margin-right负值相当于使自己的宽度减小 */
+}
+#footer{
+  background: yellow;
+  clear: both;
+}
+
+/* .clearfix::after{
+  content:'';
+  display: block;
+  clear: both;
+} */
