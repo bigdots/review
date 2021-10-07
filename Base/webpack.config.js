@@ -6,9 +6,10 @@ const mockFn = require('./mock/mockFn')
 module.exports = {
   entry,
   mode:'development',
+  devtool:'eval-cheap-module-source-map',
   output: {
       path: path.join(__dirname,'./dist'),
-      filename: "[name][hash]/index.js",
+      filename: "[name]/index.js",
   },
   module:{
     rules:[{
@@ -27,13 +28,18 @@ module.exports = {
         // 'css-loader',
         'postcss-loader'
       ]
+    },{
+      test: /\.m?js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader",
+      }
     }]
   },
   
   devServer:{
     static: "./dist",
     compress: true,
-    hot:true,
     // mockData
     onBeforeSetupMiddleware: function (devServer) {
       if (!devServer) {

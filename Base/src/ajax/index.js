@@ -54,6 +54,29 @@ function ajax({ url,
     xhr.open(method, url, async);
     xhr.send(data);
 }
+/**
+ * promise 形式的ajax
+ * @param {*} url 必传 请求地址
+ * @param {*} method 选传，默认值为get
+ * @param {*} data 选传，默认值为null
+ * @param {*} async 选传，默认值true
+ * @returns 返回一个promise
+ */
+function ajaxP(url,method="get",data=null,async = true){
+    return new Promise((resolve,reject)=>{
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                //成功
+                resolve(xhr.response)
+            } else if (xhr.status >= 400) {
+                reject(xhr)
+            }
+        }
+        xhr.open(method, url, async);
+        xhr.send(data);
+    })
+}
 
 // 调用函数
 ajax({
@@ -69,3 +92,24 @@ ajax({
         console.log(err)
     }
 })
+
+
+// promise调用ajax
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+ajaxP("/ajaxData").then((res)=>{
+    console.log(res)
+}).catch((err)=>{
+    console.log(err)
+});
+
+// 使用async函数调用ajax
+!(async function (){
+    try{
+        let res = await ajaxP("/ajaxData")
+        console.log(res)
+    }catch(err){
+        console.log(err)
+    }
+   
+})()

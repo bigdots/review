@@ -18,6 +18,11 @@ Js模块 -> 可以打包任何资源
 ### 字体打包
 'file-loader'
 
+### Js打包
+'babel-loader' 告诉webpack用babel处理js
+'babel-core'  babel处理js的核心库
+'@babel/polyfill' babel针对promise等无法直接转化的Api，实现的扩展包
+
 ## plugins 插件
 可以在webpack运行到某一时刻，帮我们干一些事情
 
@@ -36,7 +41,7 @@ moudle：还定位第三方模块的错误
 eval：效率快，但是错误提示可能不太全；
 
 最佳实践：
-1、开发环境 `cheap-module-eval-source-map`
+1、开发环境 `eval-cheap-module-source-map`
 2、线上环境 `cheap-module-source-map`
 
 ## devServer

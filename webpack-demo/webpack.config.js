@@ -8,7 +8,7 @@ module.exports = {
   entry:{
     main: './src/index.js'
   },
-  devtool:'source-map',
+  devtool:'eval-cheap-module-source-map',
   // production;development;none
   mode:'development', 
   devServer: {
@@ -32,6 +32,15 @@ module.exports = {
         // 'css-loader',
         'postcss-loader'
       ]
+    },{
+      test: /\.m?js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader",
+        options: {
+          presets: ['@babel/preset-env']
+        }
+      }
     }]
   },
   // 输出
