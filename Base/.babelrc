@@ -3,12 +3,18 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "usage",
-        "corejs": 3
+        "modules": false, // 不要把模块化的ES6语法进行转化；方便按需引入
+        "useBuiltIns": "usage", // polyfill 按需加载
+        "corejs": 3,
+        "targets": {
+          "browsers": [
+            ">0.25%"
+          ] // 根据浏览器需求转码；默认支持>0.5%的浏览器 
+        }
       }
     ]
   ],
   "plugins": [
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime" // 
   ]
 }
