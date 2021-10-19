@@ -1,15 +1,16 @@
 
 function PromisePolyfill(fn){
     // pending;fulfilled;rejected
+		this.id = Math.random();
     this.state = "pending";
     this.result = null;
-    this.onFulfilled = [];//成功的回调
-    this.onRejected = []; //失败的回调
+    this.onFulfilleds = [];//成功的回调
+    this.onRejecteds = []; //失败的回调
 		// 原生promise会捕获错误，传入reject
 		try{
 			fn(resolve.bind(this),reject.bind(this))
 		}catch(error){
-			this.reject(error)
+			reject(error)
 		}
     
     // 需要在事件循环末尾执行
@@ -18,7 +19,7 @@ function PromisePolyfill(fn){
 				if(this.state === 'pending'){
 					this.state = 'fulfilled'
 					this.result = result;
-					this.onFulfilled.forEach(fn => fn(result))
+					this.onFulfilleds.forEach(fn => fn(result))
 			  }
 			});   
     }
@@ -34,40 +35,60 @@ function PromisePolyfill(fn){
     }
 }
 
-PromisePolyfill.prototype.then = function(onFulfilled, onRejected){
-	let p2 =  new PromisePolyfill((resolve,reject)=>{
-		if(this.state === 'fulfilled'){
-			console.log(1111)
-			setTimeout(() => {
-				let result = typeof onFulfilled === 'function' && onFulfilled(this.result);
-			});
-			
-			resolve(result)
-		}
-		if(this.state === 'rejected'){
-			setTimeout(() => {
-				let result = typeof onRejected === 'function' && onRejected(this.result);
-				resolve(result)
-			});
+PromisePolyfill.prototype.then = function(fulfilledcall, rejectedcall){
+	let prePromise = this;
+	let promise2 =  new PromisePolyfill((resolve,reject)=>{
+	
+		// 将下一个promise的resolve操作放入到当前promise的resolve中
+		let onFulfilled = ()=>{
+			try{
+				setTimeout(() => {
+					 // 如果传入的是值，直接返回
+					 this.result = typeof fulfilledcall === 'function'? fulfilledcall(prePromise.result) : fulfilledcall;
+					 resolve(this.result)
+				});
+			}catch(err){
+				reject(err)
+			}
 		}
 
-		if(this.state === 'pending'){
-			typeof onFulfilled === 'function' && this.onFulfilled.push(onFulfilled)
-			typeof onRejected === 'function' && this.onRejected.push(onRejected)
+		let onRejected = ()=>{
+			try{
+				setTimeout(() => {
+					this.result = typeof rejectedcall === 'function'? rejectedcall(prePromise.result) : rejectedcall;
+			    resolve(this.result)
+				});
+			}catch(err){
+				reject(err)
+			}
+			
+		}
+		if(prePromise.state === 'fulfilled'){
+			onFulfilled();
+		}
+		if(prePromise.state === 'rejected'){
+			onRejected();
+		}
+		if(prePromise.state === 'pending'){
+			this.onFulfilleds.push(onFulfilled)
+			this.onRejecteds.push(onRejected)
 		}
 	})
-	return p2;
+	return promise2;
 }
 
-console.log("第1次")
+
 let self = new PromisePolyfill((resolve,reject)=>{
-	console.log("第2次")
-    setTimeout(() => {
-      resolve("success")
-			console.log("第4次")
-    }, 1000);
+	resolve(1)
 }).then((result)=>{
 	console.log(result)
+	return 2;
+})
+.then((res)=>{
+	console.log(res)
+	return 3;
+}).then((res)=>{
+	console.log(res)
 })
 
-console.log("第3次")
+
