@@ -20,6 +20,6 @@ function Person(name,age){
     this.age = age
 }
 
-let o = _new(Person,"dd","23");
-let b = new Person("d","23")
+let o = _new(Person,"sean","23");
+let b = new Person("sean","23")
 console.log(o,b)
