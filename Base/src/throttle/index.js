@@ -27,20 +27,20 @@ const dragDiv = document.querySelector("#dragDiv");
  * @returns 
  */
 
-function throttle(fn, delay = 100) {
-    let timer = null;
+function throttle (fn, delay = 100) {
+  let timer = null;
 
-    return function () {
-        if (timer) {
-            return
-        }
-        timer = setTimeout(() => {
-            fn.apply(this, arguments);
-            timer = null
-        }, delay);
+  return function () {
+    if (timer) {
+      return
     }
+    timer = setTimeout(() => {
+      fn.apply(this, arguments);
+      timer = null
+    }, delay);
+  }
 }
 // 传入的throttle是立即执行的，会返回一个回调函数
 dragDiv.addEventListener("drag", throttle(function (e) {
-    console.log(e)
+  console.log(e)
 }, 1000))
