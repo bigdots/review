@@ -21,26 +21,7 @@
 2、key值比较，实现对应比较，而不是按照顺序比较，所以要才用唯一且不变的值作为key
 
 ## 虚拟DOM
-虚拟DOM就是一个JS对象
-```
-<div id="vm">
-    <span>Hello World</span>
-</div>
-```
 
-```
-[{
-    tag："div"
-    data:{
-        id:"vm"
-    },
-    children:[{
-        tag:"span",
-        data:{},
-        children: "Hello World"
-    }]
-}]
-```
 
 ## 提升代码性能
 1、虚拟DOM，diff算法

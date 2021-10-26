@@ -9,15 +9,9 @@
 // 如果两个数组还有值，就重复第二步。
 
 Array.prototype.mergeSort = function () {
-  const rec = (arr) => {
-    const mid = Math.floor(arr.length / 2);
-    let left = arr.slice(0, mid);
-    let right = arr.slice(mid, arr.length);
-    if (arr.length === 1) {
-      return arr;
-    }
-    const orderLeft = rec(left);
-    const orderRight = rec(right);
+
+  // 合并操作
+  const merge = function (orderLeft, orderRight) {
     const res = [];
     while (orderLeft.length || orderRight.length) {
       if (orderLeft.length && orderRight.length) {
@@ -30,7 +24,18 @@ Array.prototype.mergeSort = function () {
     }
     return res;
   }
-  const temp = rec(this);
+  // 分割操作，分割完后要执行merge
+  const slice = (arr) => {
+    if (arr.length === 1) {
+      return arr;
+    }
+    const mid = Math.floor(arr.length / 2);
+    let left = arr.slice(0, mid);
+    let right = arr.slice(mid, arr.length);
+    return merge(slice(left), slice(right))
+  }
+
+  const temp = slice(this); // 缓存数据
   // this表示当前对象，不能直接赋值改变，但对其内部属性赋值
   temp.forEach((item, index) => {
     this[index] = item

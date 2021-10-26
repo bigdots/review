@@ -7,15 +7,13 @@ Array.prototype.selectionSort = function () {
     let indexMin = i;
     for (let j = i + 1; j < this.length; j++) {
       if (this[j] < this[indexMin]) {
-        indexMin = j;
+        indexMin = j
       }
     }
-    if (indexMin !== i) {
-      const temp = this[i];
-      this[i] = this[indexMin];
-      this[indexMin] = temp;
-    }
-
+    // 交换
+    const temp = this[i];
+    this[i] = this[indexMin];
+    this[indexMin] = temp;
   }
 }
 const arr = [5, 3, 2, 4, 1]

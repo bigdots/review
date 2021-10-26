@@ -2,6 +2,8 @@
 // 比它大就往后排。
 // 以此类推进行到最后一个数。
 
+// 时间复杂度 O(n ^ 2)
+
 Array.prototype.insertionSort = function () {
   for (let i = 1; i < this.length; i++) {
     const temp = this[i];
@@ -23,4 +25,3 @@ const arr = [5, 3, 2, 4, 1]
 arr.insertionSort()
 console.log(arr)
 
-// 时间复杂度 O(n ^ 2)
