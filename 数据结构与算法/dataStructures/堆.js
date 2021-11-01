@@ -16,76 +16,68 @@ class Heap {
     this.heap = [];
   }
 
-  getParentIndex (index) {
-    return Math.floor((index - 1) / 2)
+  push (item) {
+    this.heap.push(item)
+    this.up(this.heap.length - 1)
   }
 
-  getLeftIndex (index) {
-    return 2 * index + 1
+  exchange (parentIndex, currentIndex) {
+    const heap = this.heap
+    if (heap[parentIndex] > heap[currentIndex]) {
+      const temp = heap[parentIndex]
+      heap[parentIndex] = heap[currentIndex]
+      heap[currentIndex] = temp
+    }
+  }
+  isExchange (parentIndex, currentIndex) {
+    const heap = this.heap
+    if (heap[parentIndex] > heap[currentIndex]) {
+      return true
+    } else {
+      return false
+    }
   }
 
-  getRightIndex (index) {
-    return 2 * index + 2
-  }
-  shiftUp (index) {
+  up (index) {
     if (index === 0) {
-      return;  // 堆顶直接返回
+      return;
     }
-    let parentIndex = this.getParentIndex(index);
-
-    if (this.heap[parentIndex] > this.heap[index]) {
-      this.swap(index, parentIndex)
-      this.shiftUp(parentIndex)
-    }
-  }
-  insert (value) {
-    this.heap.push(value)
-    this.shiftUp(this.heap.length - 1) //上移操作
-  }
-
-  pop () {
-    this.heap[0] = this.heap.pop(); // 将数组的最后一位元素删除并返回给堆顶
-    this.shiftDown(0)
-  }
-
-  swap (index1, index2) {
-    const temp = this.heap[index1]
-    this.heap[index1] = this.heap[index2];
-    this.heap[index2] = temp;
-  }
-
-  shiftDown (index) {
-    const leftIndex = this.getLeftIndex(index);
-    const rightIndex = this.getRightIndex(index);
-
-    if (this.heap[index] > this.heap[leftIndex]) {
-      this.swap(index, leftIndex)
-      this.shiftDown(leftIndex)
-    }
-
-    if (this.heap[index] > this.heap[rightIndex]) {
-      this.swap(index, rightIndex)
-      this.shiftDown(rightIndex)
+    let parentIndex = Math.floor((index - 1) / 2)
+    if (this.isExchange(parentIndex, index)) {
+      this.exchange(parentIndex, index)
+      this.up(parentIndex)
     }
   }
 
-  // 获取堆顶
-  peek () {
-    return this.heap[0]
+  down (parentIndex) {
+    if (parentIndex >= this.heap.length - 1) {
+      return
+    }
+    let leftChild = Math.floor(parentIndex * 2 + 1)
+    let rightChild = Math.floor(parentIndex * 2 + 2)
+    if (this.isExchange(parentIndex, leftChild)) {
+      this.exchange(parentIndex, leftChild)
+      this.down(leftChild)
+    }
+    if (this.isExchange(parentIndex, rightChild)) {
+      this.exchange(parentIndex, rightChild)
+      this.down(rightChild)
+    }
   }
-  // 获取堆的大小
-  size () {
-    return this.heap.length;
+
+  shift () {
+    const heap = this.heap;
+    heap[0] = heap.pop()
+    this.down(0)
   }
 }
 
 const h = new Heap();
-h.insert(3)
-h.insert(2)
-h.insert(1)
-h.insert(5)
-h.insert(6)
-h.insert(4)
-h.pop();
+h.push(3);
+h.push(5);
+h.push(1);
+h.push(2);
+h.push(6);
 
-// 计算第K个最大元素
+h.shift();
+

@@ -29,3 +29,27 @@ e.next = d;
 
 // 删除e
 c.next = d;
+
+
+// f(i, j) = max{f(i - 1, j), f(i, j - 1)} + grid[i][j]
+var maxValue = function (grid) {
+  let row = grid.length;
+  let col = grid[0] ? grid[0].length : 0;
+  // let profit = 0;
+  const dp = (i, j) => {
+    let top = i === 0 ? 0 : dp(i - 1, j)
+    let left = j === 0 ? 0 : dp(i, j - 1)
+    return Math.max(top, left) + grid[i][j]
+  }
+
+  return dp(row - 1, col - 1)
+
+};
+
+maxValue([
+  [1, 3, 1],
+  [1, 5, 1],
+  [4, 2, 1]
+])
+
+

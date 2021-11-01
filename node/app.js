@@ -1,7 +1,8 @@
 const querystring = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
-const { get, set } = require("./src/db/redis")
+const { get, set } = require("./src/db/redis");
+const { accessLog } = require('./logs/utils/log')
 
 const getPOstData = (req) => {
   return new Promise((resolve, reject) => {
@@ -27,9 +28,9 @@ const getPOstData = (req) => {
   })
 }
 
-
-
 module.exports = (req, res) => {
+  // 记录访问日志
+  accessLog(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
 
   // 设置返回格式
   res.setHeader('content-type', 'application/json');
